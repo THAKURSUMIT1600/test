@@ -21,7 +21,11 @@ const Map = ({ pawns, nowMoving, rolledNumber }) => {
         const image = new Image();
         image.src = pawnImages[pawn.color];
         image.onload = function () {
-            context.drawImage(image, x - 17, y - 15, 35, 30);
+            try {
+                context.drawImage(image, x - 17, y - 15, 35, 30);
+            } catch (error) {
+                console.error('Error drawing pawn image:', error);
+            }
         };
         return touchableArea;
     };
@@ -33,8 +37,22 @@ const Map = ({ pawns, nowMoving, rolledNumber }) => {
             cursorX = event.clientX - rect.left,
             cursorY = event.clientY - rect.top;
         for (const pawn of pawns) {
-            if (ctx.isPointInPath(pawn.touchableArea, cursorX, cursorY)) {
-                if (canPawnMove(pawn, rolledNumber)) socket.emit('game:move', pawn._id);
+            try {
+                if (pawn.touchableArea && ctx.isPointInPath(pawn.touchableArea, cursorX, cursorY)) {
+                    if (canPawnMove(pawn, rolledNumber)) {
+                        console.log('Pawn clicked, emitting move:', pawn._id);
+                        socket.emit('game:move', pawn._id);
+                    }
+                }
+            } catch (error) {
+                console.error(
+                    'Canvas isPointInPath error:',
+                    error,
+                    'Pawn:',
+                    pawn._id,
+                    'TouchableArea:',
+                    pawn.touchableArea
+                );
             }
         }
         setHintPawn(null);
@@ -49,18 +67,23 @@ const Map = ({ pawns, nowMoving, rolledNumber }) => {
             y = event.clientY - rect.top;
         canvas.style.cursor = 'default';
         for (const pawn of pawns) {
-            if (
-                ctx.isPointInPath(pawn.touchableArea, x, y) &&
-                player.color === pawn.color &&
-                canPawnMove(pawn, rolledNumber)
-            ) {
-                const pawnPosition = getPositionAfterMove(pawn, rolledNumber);
-                if (pawnPosition) {
-                    canvas.style.cursor = 'pointer';
-                    if (hintPawn && hintPawn.id === pawn._id) return;
-                    setHintPawn({ id: pawn._id, position: pawnPosition, color: 'grey' });
-                    return;
+            try {
+                if (
+                    pawn.touchableArea &&
+                    ctx.isPointInPath(pawn.touchableArea, x, y) &&
+                    player.color === pawn.color &&
+                    canPawnMove(pawn, rolledNumber)
+                ) {
+                    const pawnPosition = getPositionAfterMove(pawn, rolledNumber);
+                    if (pawnPosition) {
+                        canvas.style.cursor = 'pointer';
+                        if (hintPawn && hintPawn.id === pawn._id) return;
+                        setHintPawn({ id: pawn._id, position: pawnPosition, color: 'grey' });
+                        return;
+                    }
                 }
+            } catch (error) {
+                console.error('Canvas mousemove isPointInPath error:', error, 'Pawn:', pawn._id);
             }
         }
         setHintPawn(null);

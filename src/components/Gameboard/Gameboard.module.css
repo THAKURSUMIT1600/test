@@ -2,8 +2,8 @@
     display: flex;
     flex-direction: column;
     padding: 40px;
-    width: 300px;
-    height: 250px;
+    width: 350px;
+    min-height: 300px;
     background: radial-gradient(circle, rgba(0, 138, 255, 1) 5%, rgba(9, 9, 121, 1) 81%);
     color: white;
     border: 1px solid white;
@@ -14,7 +14,36 @@
     text-align: center;
     cursor: default;
 }
+
 .winnerContainer > button {
     align-self: center;
     width: 200px;
+    margin-top: 20px;
+}
+
+.finalScores {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.finalScores h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    color: #fff;
+}
+
+.finalScores p {
+    margin: 5px 0;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.finalScores p span {
+    font-weight: bold;
+    text-transform: capitalize;
 }

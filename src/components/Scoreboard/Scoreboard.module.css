@@ -1,0 +1,122 @@
+.scoreboard {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 12px;
+    padding: 16px;
+    min-width: 200px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    color: white;
+    font-family: 'Arial', sans-serif;
+}
+
+.title {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+    border-bottom: 1px solid #333;
+    padding-bottom: 8px;
+}
+
+.scoresContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.playerScore {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-left: 4px solid;
+    transition: all 0.3s ease;
+}
+
+.playerScore:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(2px);
+}
+
+.playerScore.red {
+    border-left-color: #ff4444;
+}
+
+.playerScore.blue {
+    border-left-color: #4444ff;
+}
+
+.playerScore.green {
+    border-left-color: #44ff44;
+}
+
+.playerScore.yellow {
+    border-left-color: #ffff44;
+}
+
+.rank {
+    font-size: 12px;
+    font-weight: bold;
+    color: #888;
+    min-width: 20px;
+}
+
+.playerInfo {
+    flex: 1;
+}
+
+.playerName {
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.playerColor {
+    font-size: 10px;
+    color: #888;
+    text-transform: capitalize;
+}
+
+.scoreInfo {
+    text-align: right;
+}
+
+.score {
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.captures {
+    font-size: 9px;
+    color: #888;
+    margin-top: 2px;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .scoreboard {
+        position: static;
+        margin: 10px;
+        min-width: auto;
+        width: calc(100% - 20px);
+    }
+    
+    .title {
+        font-size: 16px;
+    }
+    
+    .playerName {
+        font-size: 14px;
+    }
+    
+    .score {
+        font-size: 14px;
+    }
+}

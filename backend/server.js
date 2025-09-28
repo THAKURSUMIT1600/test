@@ -26,10 +26,27 @@ app.use(
 );
 app.use(sessionMiddleware);
 
+// Add health endpoint
+app.get('/health', (req, res) => {
+    res.status(200).json({
+        status: 'OK',
+        timestamp: new Date().toISOString(),
+        service: 'MERN Ludo Backend',
+    });
+});
+
 const server = app.listen(PORT);
 
 require('./config/database')(mongoose);
 require('./config/socket')(server);
+
+// Start periodic room cleanup (every 10 minutes)
+const { cleanupFinishedRooms } = require('./services/roomService');
+setInterval(async () => {
+    await cleanupFinishedRooms();
+}, 10 * 60 * 1000); // 10 minutes
+
+console.log(`🎮 MERN Ludo Server running on port ${PORT}`);
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('./build'));
